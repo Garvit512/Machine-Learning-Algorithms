@@ -69,8 +69,7 @@ LR = 0.09
 n = len(features)
 
 
-# Gradient Descent algorithm
-
+# Gradient Descent algorithm (to minimize loss and identify best unknown parameters)
 def GradientDescent(features, targets, loss, bias, weight):
     for feature, target in zip(features, targets):
     
@@ -94,7 +93,7 @@ def GradientDescent(features, targets, loss, bias, weight):
     # plt.show()
 
 
-
+# Ordinary Least Square Method (to identify best unknown parameters)
 def OLS(features, targets):
     x = features
     y = targets
