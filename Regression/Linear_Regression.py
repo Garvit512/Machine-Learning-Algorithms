@@ -39,8 +39,11 @@ for F, T in zip(features, targets):
     F_mean = sum(features) / n
     T_mean = sum(targets) / n
 
-    f = (F - F_mean) / max(features)
-    t = (T - T_mean) / max(targets)
+    F_std = np.std(features)
+    T_std = np.std(targets)
+
+    f = (F - F_mean) / F_std
+    t = (T - T_mean) / T_std
 
     features_ = np.append(features_, f)
     targets_ = np.append(targets_, t)
@@ -73,7 +76,7 @@ deriv_m = Derivative(loss, m).doit()
 # setting initial/random weight and bias
 bias = 0
 weight = 0
-LR = 0.55
+LR = 0.094
 n = len(features)
 
 
@@ -154,22 +157,3 @@ len(targets)
 GD = GradientDescent(features, targets, loss, bias, weight)
 
 ols = OLS(features, targets)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
