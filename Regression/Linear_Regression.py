@@ -36,15 +36,8 @@ features_ = np.array([])
 targets_ = np.array([])
 
 for F, T in zip(features, targets):
-    F_mean = sum(features) / n
-    T_mean = sum(targets) / n
-
-    F_std = np.std(features)
-    T_std = np.std(targets)
-
-    f = (F - F_mean) / F_std
-    t = (T - T_mean) / T_std
-
+    f = (F - (sum(features) / n)) / max(features)
+    t = (T - (sum(targets) / n)) / max(targets)
     features_ = np.append(features_, f)
     targets_ = np.append(targets_, t)
     # print(f"original:{F}, normalized:{res_F}")
@@ -53,6 +46,8 @@ for F, T in zip(features, targets):
 
 features = features_
 targets = targets_
+
+# In[]
 
 # Defining variables for partial derivative
 m, x, c, y, LR, n = symbols('m, x, c, y, LR, n')
@@ -76,7 +71,7 @@ deriv_m = Derivative(loss, m).doit()
 # setting initial/random weight and bias
 bias = 0
 weight = 0
-LR = 0.094
+LR = 0.6
 n = len(features)
 
 
@@ -85,6 +80,8 @@ n = len(features)
 # LR = 0
 # n = len(features)
 
+
+# In[]
 
 # Gradient Descent algorithm
 
@@ -125,7 +122,11 @@ def GradientDescent(features, targets, loss, bias, weight):
     # plt.show()
 
 
-def OLS(features, targets):
+# In[]
+
+
+# OLS  {Equation Based Approach}
+def NormalEquation_OLS(features, targets):
     x = features
     y = targets
     x_mean = sum(x) / len(x)
@@ -143,17 +144,52 @@ def OLS(features, targets):
         denominator_list.append(denominator)
     m = sum(numerator_list) / sum(denominator_list)
     b = y_mean - m * x_mean
-    print("new bias:", b)
-    print("new weight:", m, '\n')
+    print("bias (m0):", b)
+    print("weight(m1):", m, '\n')
     plt.scatter(features, targets)
-    plt.plot(features, m * features + b, label='OLS', color='black')
+    plt.plot(features, m * features + b, label='Normal Eqn (OLS)', color='black')
     plt.legend()
     plt.show()
 
 
-len(features)
-len(targets)
+# In[]
 
+# {Matrix Based Approach} (x'x)m = x'y
+def NormalEquation_matrix(features, targets):
+    x_mat = np.matrix(features)
+
+    if x_mat.shape == (1, len(features)):
+        x_mat = np.insert(x_mat, 0, np.ones(shape=len(features)), axis=0)
+        y_mat = np.matrix(targets).transpose()
+        x_mat_trans = x_mat.transpose()
+        temp = x_mat
+        x_mat = x_mat_trans
+        x_mat_trans = temp
+
+    else:
+        x_mat = np.insert(x_mat, 0, np.ones(shape=len(features)), axis=1)
+        y_mat = np.matrix(targets)
+        temp = x_mat
+        x_mat_trans = temp.transpose()
+
+    x_mat_trans_DOT_x_mat = x_mat_trans * x_mat
+    x_mat_trans_DOT_y_mat = x_mat_trans * y_mat
+
+    m = np.linalg.inv(x_mat_trans_DOT_x_mat) * x_mat_trans_DOT_y_mat
+    m0 = m[0].item()
+    m1 = m[1].item()
+
+    print("bias (m0):", m0)
+    print("weight(m1):", m1, '\n')
+    plt.scatter(features, targets)
+    plt.plot(features, m0 + m1 * features, label='Normal Eqn (Matrix)', color='black')
+    plt.legend()
+    plt.show()
+
+
+# In[]
 GD = GradientDescent(features, targets, loss, bias, weight)
+normalEqn_OLS = NormalEquation_OLS(features, targets)
+normalEqn_Mat = NormalEquation_matrix(features, targets)
 
-ols = OLS(features, targets)
+
