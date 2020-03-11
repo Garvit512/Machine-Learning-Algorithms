@@ -68,10 +68,10 @@ def NormalEquation_matrix(features, targets):  # (matrix based) (x'x)m = x'y
         x_mat_trans = temp.transpose()
         del (temp)
 
-    x_mat_trans_DOT_x_mat = x_mat_trans * x_mat
-    x_mat_trans_DOT_y_mat = x_mat_trans * y_mat
+    x_mat_trans_CROSS_x_mat = x_mat_trans * x_mat
+    x_mat_trans_CROSS_y_mat = x_mat_trans * y_mat
 
-    m = np.linalg.inv(x_mat_trans_DOT_x_mat) * x_mat_trans_DOT_y_mat
+    m = np.linalg.inv(x_mat_trans_CROSS_x_mat) * x_mat_trans_CROSS_y_mat
     print("bias (m0):", m[0], '\n')
     print("weight (m1, m2...):", m[1:], '\n')
 

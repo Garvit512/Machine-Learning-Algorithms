@@ -172,10 +172,10 @@ def NormalEquation_matrix(features, targets):
         temp = x_mat
         x_mat_trans = temp.transpose()
 
-    x_mat_trans_DOT_x_mat = x_mat_trans * x_mat
-    x_mat_trans_DOT_y_mat = x_mat_trans * y_mat
+    x_mat_trans_CROSS_x_mat = x_mat_trans * x_mat
+    x_mat_trans_CROSS_y_mat = x_mat_trans * y_mat
 
-    m = np.linalg.inv(x_mat_trans_DOT_x_mat) * x_mat_trans_DOT_y_mat
+    m = np.linalg.inv(x_mat_trans_CROSS_x_mat) * x_mat_trans_CROSS_y_mat
     m0 = m[0].item()
     m1 = m[1].item()
 
