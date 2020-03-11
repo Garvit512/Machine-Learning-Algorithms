@@ -6,6 +6,11 @@ Created on Tue Mar 10 13:43:39 2020
 @author: garvit
 """
 
+# Multivariate Linear Regression from scratch
+'''
+y = m0x0 + m1x1 + m2x2 + ....... 
+'''
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
